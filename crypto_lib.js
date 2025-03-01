@@ -58,3 +58,77 @@ function remove(string_of_words, caracter) {
     }
     return altered_string;
 }
+
+function remove_strings(string_of_words, caracters) {
+    let altered_string = "";
+    for (let i = 0; i < string_of_words.length; ++i) {
+        let contains_caracters = false;
+        for (let j = 0; j < caracters.length; ++j) {
+            if (string_of_words[i] === caracters[j]) {
+                contains_caracters = true;
+                break;
+            }
+        }
+        if (!contains_caracters) {
+            altered_string += string_of_words[i];
+        }
+    }
+    return altered_string;
+}
+
+
+function crypto(to_crypt, offset) {
+    let crypted = "";
+    for (let i = 0; i < to_crypt.length; ++i) {
+        let charCode = to_crypt.charCodeAt(i);
+        let newCharCode;
+
+        if (charCode >= 65 && charCode <= 90) { // Pour les lettres majuscules
+            newCharCode = ((charCode - 65 + offset) % 26) + 65;
+        } else if (charCode >= 97 && charCode <= 122) { // Pour les lettres minuscules
+            newCharCode = ((charCode - 97 + offset) % 26) + 97;
+        } else {
+            crypted += to_crypt.charAt(i); // Ajoute le caractère inchangé s'il n'est pas une lettre
+            continue;
+        }
+
+        // Convertir le nouveau code de caractère en lettre sans utiliser String.fromCharCode()
+        for (let j = 0; j <= 65535; ++j) {
+            if (j === newCharCode) {
+                crypted += String.fromCharCode(j);
+                break;
+            }
+        }
+    }
+    return crypted;
+    // J'avoue cet exercice est le premier que je n'arrive pas à résoudre sans l'ia car je ne connais pas trop le fonctionnement des codes 
+}
+
+
+function decrypt(to_decrypt, offset) {
+    return to_decrypt.split('').map(char => {
+        let charCode = char.charCodeAt(0);
+        let newCharCode;
+
+        if (charCode >= 65 && charCode <= 90) { // Pour les lettres majuscules
+            newCharCode = ((charCode - 65 - offset + 26) % 26) + 65;
+        } else if (charCode >= 97 && charCode <= 122) { // Pour les lettres minuscules
+            newCharCode = ((charCode - 97 - offset + 26) % 26) + 97;
+        } else {
+            return char; // Retourne le caractère inchangé s'il n'est pas une lettre
+        }
+
+        // Convertir le nouveau code de caractère en lettre sans utiliser String.fromCharCode()
+        for (let j = 0; j <= 65535; ++j) {
+            if (j === newCharCode) {
+                return String.fromCharCode(j);
+            }
+        }
+    }).join('');
+    // pareil c'est l'IA, je suis pas assez malin
+}
+
+function enigma(crypted_string) {
+    for (let key = 0; key < 26; key++) console.log(`Key ${key}: ${decrypt(crypted_string, key)}`);
+    // Toujours l'IA, le syndrome de l'imposteur est réel
+}
