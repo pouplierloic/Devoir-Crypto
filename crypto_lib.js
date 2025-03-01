@@ -44,3 +44,17 @@ function count_vowels(string_of_words) {
     }
     return count;
 }
+
+function count_consonants(string_of_words) {
+    return string_of_words.length - count_vowels(string_of_words) - count_words(string_of_words) + 1;
+}
+
+function remove(string_of_words, caracter) {
+    let altered_string = "";
+    for (let i = 0; i < string_of_words.length; ++i) {;
+        if (string_of_words[i] !== caracter) {
+            altered_string += string_of_words[i];
+        }
+    }
+    return altered_string;
+}
